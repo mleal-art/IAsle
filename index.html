@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050506">
+<title>IAsle · Small apps, carefully made</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#050506;--ink:#eceef1;--mute:#8b9097;--acc:#fff;--steel:linear-gradient(110deg,#5d6269 0%,#f4f5f7 28%,#8a8f96 50%,#e9ebee 72%,#6a6f76 100%)}
+*{box-sizing:border-box}
+html{background:var(--bg) radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,255,255,.09),transparent 70%) no-repeat}
+body{margin:0;color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+main{max-width:640px;margin:0 auto;padding:12vh 24px 64px}
+h1{background:var(--steel);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;font-size:clamp(3.5rem,16vw,6rem);line-height:1;margin:0 0 24px;letter-spacing:-.03em;font-weight:600}
+h1 span{font-weight:300}
+.lead{font-size:1.15rem;color:var(--mute);max-width:46ch;margin:0 0 28px}
+.start{margin-bottom:64px}
+h2{font-size:1rem;font-weight:600;margin:0 0 8px}
+.hint{color:var(--mute);font-size:.9rem;margin:0 0 14px}
+#apps{list-style:none;margin:0;padding:0;border-top:1px solid;border-image:linear-gradient(90deg,#585d64,#1a1c20) 1}
+#apps>li{border-bottom:1px solid;border-image:linear-gradient(90deg,#40444a,#131417) 1}
+.row{display:flex;align-items:center;gap:12px}
+.head{flex:1;min-width:0;display:flex;align-items:center;gap:16px;padding:18px 0;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.head:hover .n,.head:focus-visible .n{background:var(--steel);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.ic{width:44px;height:44px;flex:none;border-radius:12px;border:1px solid #3a3d42;background:#0c0d0f;display:grid;place-items:center;overflow:hidden;font-weight:600;font-size:1.2rem}
+.ic img{width:100%;height:100%;object-fit:cover;display:block}
+.ic b{background:var(--steel);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tx{flex:1;min-width:0}
+.n{display:block;font-weight:600}
+.d{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--mute);font-size:.95rem}
+.by{display:block;color:var(--mute);font-size:.7rem;margin-top:4px;opacity:.7}
+.go{color:var(--mute);font-size:.9rem;white-space:nowrap;text-decoration:none}
+.go:hover{color:var(--ink)}
+.det{padding:0 0 22px 60px}
+.det p{margin:0 0 8px}
+.det h3{font-size:.85rem;font-weight:600;color:var(--mute);margin:18px 0 6px}
+.feat{margin:0;padding-left:18px;list-style:disc}
+.info{margin:0;font-size:.9rem;color:var(--mute)}
+.info div{display:flex;gap:8px;padding:2px 0}
+.info dt{min-width:84px}.info dd{margin:0;color:var(--ink);word-break:break-all}
+.info a{color:var(--ink)}
+textarea,input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #3a3d42;background:#0c0d0f;color:var(--ink);font:inherit;font-size:.9rem}
+input{margin:8px 0 12px}
+textarea{margin:0 0 8px}
+button.b,.adm button{padding:9px 14px;border-radius:10px;border:1px solid #3a3d42;background:#0c0d0f;color:var(--ink);font:inherit;font-size:.9rem;cursor:pointer;margin:0 8px 8px 0}
+.adm{margin-bottom:56px}
+.pm{color:var(--mute);font-size:.85rem;min-height:1.2em}
+.lk{background:none;border:0;color:var(--mute);padding:0;font:inherit;cursor:pointer;text-decoration:underline}
+.cta{display:inline-block;padding:14px 24px;border-radius:999px;border:0;background:var(--steel);color:#0a0a0b;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;margin:0 0 10px}
+.dhead{display:flex;align-items:center;gap:16px;margin:28px 0 24px}
+.dhead .ic{width:64px;height:64px;border-radius:16px;font-size:1.6rem}
+.dn{font-size:1.7rem;line-height:1.2;margin:0}
+.dt{margin:2px 0 0;color:var(--mute)}
+#detail{padding-top:4vh}
+footer{margin-top:72px;color:var(--mute);font-size:.95rem}
+footer p{margin:0 0 6px}
+</style>
+</head>
+<body>
+<main>
+  <div id="home">
+  <h1><span>IA</span>sle</h1>
+  <p class="lead">Small apps, carefully made.</p>
+  <div class="start">
+    <button id="go" type="button" class="cta">Empezar una app nueva</button>
+    <p id="gm" class="pm"></p>
+    <textarea id="gt" rows="8" readonly hidden></textarea>
+  </div>
+
+  <section id="adm" class="adm" hidden>
+    <h2>Agregar una app</h2>
+    <input id="lnk" type="url" placeholder="Pegá el link de GitHub de la app" aria-label="Link de GitHub de la app">
+    <button id="add" type="button">Agregar</button>
+    <p id="msg" class="pm"></p>
+    <p class="pm">Los cambios se ven en este dispositivo. Para publicarlos, tocá "Copiar lista" y pegá el resultado en LINKS dentro del archivo.</p>
+    <button id="cp" type="button">Copiar lista</button>
+    <button id="rs" type="button">Volver a la original</button>
+    <textarea id="outl" rows="8" readonly hidden></textarea>
+    <h2 style="margin-top:40px">Prompt para IAs</h2>
+    <p class="pm">Pegalo al empezar a pedirle una app a cualquier IA. Podés editarlo y se guarda en este dispositivo.</p>
+    <textarea id="pr" rows="14"></textarea>
+    <button id="cpp" type="button">Copiar prompt</button>
+    <button id="rsp" type="button">Restaurar prompt</button>
+    <p id="pm" class="pm"></p>
+  </section>
+
+  <h2>Apps</h2>
+  <p class="hint">Tocá una app para ver qué hace y su prompt de ajuste.</p>
+  <ul id="apps"></ul>
+
+  <footer>
+    <p><button id="ed" type="button" class="lk">Editar apps</button></p>
+    <p>© <span id="y"></span> IAsle</p>
+  </footer>
+  </div>
+  <section id="detail" hidden></section>
+</main>
+<script>
+// Para agregar una app: pegá su link de GitHub en esta lista. Nombre, ícono, qué hace y prompt los lee solos de la app.
+// d (opcional): frase corta propia que reemplaza a la que lee de la app.
+var LINKS=[
+ {u:"https://github.com/mleal-art/cronicas-del-tiempo",d:"Relatos históricos para leer donde quieras."},
+ {u:"https://github.com/mleal-art/Torneo-Voley-ASM",d:"Torneo mixto de vóley: partidos y resultados."},
+ {u:"https://github.com/mleal-art/Qr-Torneo-Voley",d:"Anotate al torneo mixto de vóley."},
+ {u:"https://github.com/mleal-art/Bingo-Martu",d:"Bingo con música para animar la fiesta."},
+ {u:"https://mleal-art.github.io/Pizza-ASM/index.htm",d:"Pedidos de pizzas de ASM."}
+];
+function pagesUrl(u){
+  u=u.trim();
+  var m=u.match(/^https?:\/\/github\.com\/([^\/\s]+)\/([^\/#?\s]+)/i);
+  if(!m)return u;
+  var o=m[1],r=m[2].replace(/\.git$/,"");
+  return r.toLowerCase()===o.toLowerCase()+".github.io"?"https://"+o+".github.io/":"https://"+o+".github.io/"+r+"/";
+}
+function parseRef(u){
+  u=u.trim();var o=null,r=null,f="index.html",m;
+  if((m=u.match(/^https?:\/\/github\.com\/([^\/\s]+)\/([^\/#?\s]+)/i))){o=m[1];r=m[2].replace(/\.git$/,"")}
+  else if((m=u.match(/^https?:\/\/([^.\/]+)\.github\.io(?:\/([^\/#?]*))?(?:\/([^#?]*))?/i))){
+    o=m[1];r=m[2]||(o+".github.io");
+    if(m[3]&&/\.html?$/i.test(m[3]))f=m[3];
+  }
+  return{owner:o,repo:r,file:f};
+}
+function nameFrom(u){
+  var p=pagesUrl(u).replace(/[?#].*$/,"").split("/").filter(Boolean).pop()||"App";
+  return decodeURIComponent(p).replace(/\.html?$/i,"").replace(/[-_]+/g," ");
+}
+async function fetchApp(u){
+  var url=pagesUrl(u),r=await fetch(url);
+  if(!r.ok)throw new Error("no");
+  var html=await r.text(),doc=new DOMParser().parseFromString(html,"text/html"),base=r.url||url;
+  var t=doc.querySelector("title"),md=doc.querySelector('meta[name="description"]'),icon=null;
+  var title=(t?t.textContent:"").replace(/\s+/g," ").trim(),parts=title.split(/\s+[-–—|]\s+/);
+  var name=parts[0]||nameFrom(u),tail=parts.slice(1).join(" · "),mdesc=md?md.content.trim():"",feat=[],seen={};
+  doc.querySelectorAll('h2,h3,[role="tab"],button[class*="tab"],a[class*="tab"],button[class*="nav"],a[class*="nav"]').forEach(function(e){
+    var x=e.textContent.replace(/\s+/g," ").trim(),k=x.toLowerCase();
+    if(x.length<2||x.length>40||/[<>{}$]/.test(x)||/^(hola|m[aá]s|men[uú]|cerrar|cancelar|guardar|volver|instalar)/i.test(x))return;
+    if(seen[k]||k===name.toLowerCase())return;
+    seen[k]=1;feat.push(x);
+  });
+  feat=feat.slice(0,12);
+  var b=null;
+  try{b=JSON.parse(doc.getElementById("iasle-app").textContent)}catch(e){}
+  var man=doc.querySelector('link[rel="manifest"]');
+  if(man){
+    try{
+      var mu=new URL(man.getAttribute("href"),base).href,mj=await (await fetch(mu)).json(),best=null,bs=0;
+      (mj.icons||[]).forEach(function(i){
+        var z=parseInt(String(i.sizes||"0").split(" ")[0])||0;
+        if(!best||(bs<96&&z>bs)||(z>=96&&(bs<96||z<bs))){best=i;bs=z}
+      });
+      if(best)icon=new URL(best.src,mu).href;
+    }catch(e){}
+  }
+  if(!icon){
+    var l=doc.querySelector('link[rel~="apple-touch-icon"]')||doc.querySelector('link[rel~="icon"]');
+    if(l)icon=new URL(l.getAttribute("href"),base).href;
+  }
+  var ref=parseRef(u),has=b&&typeof b==="object";
+  return{
+    url:url,name:(has&&b.name)||name,
+    tagline:(has&&b.tagline)||tail||mdesc||feat.slice(0,4).join(", "),
+    desc:(has&&b.description)||mdesc||((tail?tail+". ":"")+(feat.length?"Incluye: "+feat.join(", ")+".":"")),
+    features:(has&&Array.isArray(b.features)&&b.features.length)?b.features:feat,
+    prompt:(has&&b.prompt)||null,icon:icon,pwa:!!man,kb:Math.round(html.length/1024),
+    aps:/script\.google\.com/.test(html),ls:/localStorage/.test(html),card:!!has,
+    repo:ref.owner?"https://github.com/"+ref.owner+"/"+ref.repo:null,
+    raw:ref.owner?"https://raw.githubusercontent.com/"+ref.owner+"/"+ref.repo+"/main/"+ref.file:null
+  };
+}
+function read(u){
+  var k="iasle:v2:"+u;
+  try{
+    var c=JSON.parse(localStorage.getItem(k)||"null");
+    if(c&&Date.now()-c.t<864e5&&location.search.indexOf("refresh")<0)return Promise.resolve(c.v);
+  }catch(e){}
+  return fetchApp(u).then(function(v){
+    try{var s=JSON.stringify({t:Date.now(),v:v});if(s.length<3e5)localStorage.setItem(k,s)}catch(e){}
+    return v;
+  });
+}
+function mkPrompt(i){
+  var L=["Vas a ajustar una app mía llamada \u00ab"+i.name+"\u00bb (de IAsle Developers)."];
+  if(i.prompt){
+    L.push("",i.prompt);
+    if(i.raw&&i.prompt.indexOf(i.raw)<0)L.push("","Código fuente (leelo antes de cambiar nada): "+i.raw);
+  }else{
+    if(i.desc)L.push("Qué hace: "+i.desc);
+    if(i.features.length)L.push("Pantallas y funciones actuales: "+i.features.join(", ")+".");
+    L.push("App publicada: "+i.url);
+    if(i.raw)L.push("Código fuente (leelo antes de cambiar nada): "+i.raw);
+  }
+  L.push("","Reglas:",
+   "- Mantené el diseño, los datos y todo lo que ya funciona; cambiá solo lo que te pida.",
+   "- Mantené la firma \"by IAsle Developers\" (visible, chica, al pie) y actualizá la ficha \x3Cscript type=\"application/json\" id=\"iasle-app\"> si cambian las funciones.",
+   "- Devolveme el archivo HTML completo y actualizado, en un único archivo.","","Cambio que quiero: ");
+  return L.join("\n");
+}
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+async function copyText(t){try{await navigator.clipboard.writeText(t);return true}catch(e){return false}}
+var cur=null,home=document.getElementById("home"),dv=document.getElementById("detail"),lastY=0;
+function showHome(){dv.hidden=true;home.hidden=false;cur=null;window.scrollTo(0,lastY)}
+function openApp(c){
+  lastY=window.scrollY||0;cur=c;home.hidden=true;dv.hidden=false;renderDetail();window.scrollTo(0,0);
+  try{if(location.hash!=="#app")location.hash="app"}catch(e){}
+}
+function back(){showHome();try{if(location.hash==="#app")history.back()}catch(e){}}
+window.addEventListener("hashchange",function(){if(location.hash!=="#app"&&cur)showHome()});
+function renderDetail(){
+  if(!cur)return;
+  var c=cur,i=c.info;dv.textContent="";
+  var bk=el("button","b","\u2190 Volver");bk.type="button";bk.onclick=back;dv.appendChild(bk);
+  var hd=el("div","dhead"),ic=c.ic.cloneNode(true),t=el("div","tx");
+  t.appendChild(el("h2","dn",c.nm.textContent));
+  var tg=c.d||(i&&i.tagline)||"";if(tg)t.appendChild(el("p","dt",tg));
+  t.appendChild(el("span","by","by IAsle Developers"));
+  hd.appendChild(ic);hd.appendChild(t);dv.appendChild(hd);
+  var op=el("a","cta","Abrir app");op.href=pagesUrl(c.u);op.target="_blank";op.rel="noopener";dv.appendChild(op);
+  if(!i){dv.appendChild(el("p","pm","Leyendo la app…"));return}
+  if(i.desc)dv.appendChild(el("p",null,i.desc));
+  if(i.features.length){
+    dv.appendChild(el("h3",null,"Qué incluye"));
+    var fl=el("ul","feat");i.features.forEach(function(f){fl.appendChild(el("li",null,f))});dv.appendChild(fl);
+  }
+  dv.appendChild(el("h3",null,"Prompt para ajustar esta app"));
+  var ta=el("textarea");ta.rows=12;ta.readOnly=true;ta.value=mkPrompt(i);dv.appendChild(ta);
+  var b1=el("button","b","Copiar prompt"),b2=el("button","b","Copiar prompt + código"),pm=el("p","pm");
+  b1.type=b2.type="button";
+  b1.onclick=async function(){ta.select();pm.textContent=(await copyText(ta.value))?"Prompt copiado.":"Copiá el texto de arriba."};
+  b2.onclick=async function(){
+    pm.textContent="Leyendo el código…";
+    try{
+      var code=await (await fetch(i.raw||i.url)).text();
+      code=code.replace(/data:[\w\/+.\-]+;base64,[A-Za-z0-9+\/=]{200,}/g,"data:[contenido omitido]");
+      pm.textContent=(await copyText(ta.value+"\n\n--- CÓDIGO ACTUAL DE LA APP ---\n"+code))?"Prompt y código copiados.":"No se pudo copiar.";
+    }catch(e){pm.textContent="No se pudo leer el código."}
+  };
+  dv.appendChild(b1);dv.appendChild(b2);dv.appendChild(pm);
+  dv.appendChild(el("h3",null,"Información"));
+  var dl=el("dl","info");
+  function add(k,v,href){
+    var r=el("div"),dd=el("dd");r.appendChild(el("dt",null,k));
+    if(href){var a=el("a",null,v);a.href=href;a.target="_blank";a.rel="noopener";dd.appendChild(a)}else dd.textContent=v;
+    r.appendChild(dd);dl.appendChild(r);
+  }
+  add("App",i.url,i.url);
+  if(i.repo)add("Código",i.repo.replace("https://",""),i.repo);
+  add("Tipo",i.pwa?"PWA, se instala en el celular":"Página web");
+  add("Tamaño",i.kb>1024?(i.kb/1024).toFixed(1)+" MB":i.kb+" KB");
+  if(i.ls)add("Datos","Guarda información en el dispositivo");
+  if(i.aps)add("Conexión","Usa Google Apps Script");
+  add("Ficha",i.card?"Leída de la app (iasle-app)":"Deducida del contenido de la app");
+  dv.appendChild(dl);
+}
+function mk(u,d){
+  var li=document.createElement("li"),row=el("div","row"),head=el("button","head"),ic=el("span","ic"),tx=el("span","tx"),
+      nm=el("span","n",nameFrom(u)),ds=el("span","d",d||""),by=el("span","by","by IAsle Developers"),
+      go=el("a","go","Abrir"),c={u:u,d:d,info:null,nm:nm,ic:ic};
+  head.type="button";go.href=pagesUrl(u);go.target="_blank";go.rel="noopener";
+  tx.appendChild(nm);tx.appendChild(ds);tx.appendChild(by);head.appendChild(ic);head.appendChild(tx);
+  row.appendChild(head);row.appendChild(go);li.appendChild(row);
+  function ini(){ic.textContent="";ic.appendChild(el("b",null,(nm.textContent||"?").charAt(0).toUpperCase()))}
+  head.onclick=function(){openApp(c)};
+  ini();
+  read(u).then(function(i){
+    c.info=i;
+    if(i.name)nm.textContent=i.name;
+    ds.textContent=d||i.tagline||"";
+    ini();
+    if(cur===c)renderDetail();
+    if(i.icon){
+      var im=new Image();im.alt="";
+      im.onload=function(){ic.textContent="";ic.appendChild(im);if(cur===c)renderDetail()};
+      im.src=i.icon;
+    }
+  }).catch(function(){});
+  return li;
+}
+var ul=document.getElementById("apps"),list,editing=false,
+    adm=document.getElementById("adm"),inp=document.getElementById("lnk"),msg=document.getElementById("msg"),
+    ed=document.getElementById("ed"),outl=document.getElementById("outl");
+try{list=JSON.parse(localStorage.getItem("iasle:list")||"null")}catch(e){}
+if(!Array.isArray(list))list=LINKS.slice();
+function save(){try{localStorage.setItem("iasle:list",JSON.stringify(list))}catch(e){}}
+function render(){
+  ul.textContent="";
+  list.forEach(function(x,n){
+    var li=mk(x.u,x.d);
+    if(editing){
+      var b=el("button","b","Quitar");b.type="button";
+      b.onclick=function(){list.splice(n,1);save();render()};
+      li.querySelector(".row").appendChild(b);
+    }
+    ul.appendChild(li);
+  });
+}
+function setEdit(on){editing=on;adm.hidden=!on;ed.textContent=on?"Listo":"Editar apps";render()}
+ed.onclick=function(){setEdit(!editing)};
+document.getElementById("add").onclick=function(){
+  var v=inp.value.trim();
+  if(!/^https?:\/\//i.test(v)){msg.textContent="Pegá un link que empiece con https://";return}
+  var pu=pagesUrl(v);
+  if(list.some(function(x){return pagesUrl(x.u)===pu})){msg.textContent="Esa app ya está en la lista.";return}
+  list.push({u:v});save();inp.value="";msg.textContent="";render();
+};
+document.getElementById("cp").onclick=async function(){
+  var t="var LINKS=[\n"+list.map(function(x){return " {u:"+JSON.stringify(x.u)+(x.d?",d:"+JSON.stringify(x.d):"")+"}"}).join(",\n")+"\n];";
+  outl.value=t;outl.hidden=false;outl.select();
+  msg.textContent=(await copyText(t))?"Lista copiada.":"Copiá el texto de abajo.";
+};
+document.getElementById("rs").onclick=function(){try{localStorage.removeItem("iasle:list")}catch(e){}list=LINKS.slice();outl.hidden=true;render()};
+var CARD=JSON.stringify({name:"Nombre de la app",tagline:"Qué hace, en una frase corta",description:"Explicación de 2 a 4 frases: qué hace y para quién es",features:["Función 1","Función 2"],prompt:"Prompt para que una IA ajuste esta app: qué es, cómo está armada, qué no hay que romper, y que mantenga la firma y esta ficha actualizadas"});
+var PROMPT="Vas a crear o ajustar una app para mí. Toda app que generes pertenece a mi desarrolladora IAsle y debe cumplir esto:\n\n"
++"1. Firma visible: al pie de la app, en letra chica y discreta, el texto exacto \"by IAsle Developers\" (centrado, unos 11px, opacidad baja, que no tape ni moleste a los controles ni al juego). Si la app es de pantalla completa, ponela en la pantalla de inicio o en el menú.\n"
++"2. En el \x3Chead> agregá \x3Cmeta name=\"author\" content=\"IAsle Developers\"> y, al principio del archivo, un comentario: \x3C!-- by IAsle Developers -->.\n"
++"3. Si la app es una PWA, poné \"IAsle Developers\" como autor en el manifest.\n"
++"4. Ficha de la app: antes de \x3C/body> incluí este bloque, completado para esta app. Mi página de IAsle lo lee sola para mostrar qué hace la app y su prompt de ajuste:\n\x3Cscript type=\"application/json\" id=\"iasle-app\">"+CARD+"\x3C/script>\n"
++"5. Cada vez que modifiques la app, actualizá la ficha (funciones y prompt) y mantené la firma.\n"
++"6. Entregame la app como un único archivo HTML que funcione bien en el celular.\n\nPor ahora no hagas nada más: confirmame en una línea que entendiste estas reglas y esperá mi próximo mensaje, donde te cuento qué app quiero.";
+var pr=document.getElementById("pr"),pm=document.getElementById("pm");
+try{pr.value=localStorage.getItem("iasle:prompt3")||PROMPT}catch(e){pr.value=PROMPT}
+pr.addEventListener("input",function(){try{localStorage.setItem("iasle:prompt3",pr.value)}catch(e){}});
+document.getElementById("cpp").onclick=async function(){pr.select();pm.textContent=(await copyText(pr.value))?"Prompt copiado.":"Copiá el texto de arriba."};
+document.getElementById("rsp").onclick=function(){pr.value=PROMPT;try{localStorage.removeItem("iasle:prompt3")}catch(e){}pm.textContent="Prompt restaurado."};
+document.getElementById("go").onclick=async function(){
+  var gm=document.getElementById("gm"),gt=document.getElementById("gt");
+  if(await copyText(pr.value)){gt.hidden=true;gm.textContent="Prompt copiado. Pegalo en tu IA y después contale qué app querés."}
+  else{gt.value=pr.value;gt.hidden=false;gt.select();gm.textContent="Copiá el texto de abajo y pegalo en tu IA."}
+};
+document.getElementById("y").textContent=new Date().getFullYear();
+render();
+if(location.hash==="#agregar")setEdit(true);
+</script>
+</body>
+</html>
